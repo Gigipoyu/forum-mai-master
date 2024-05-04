@@ -26,7 +26,7 @@ const total = await LikeDB.totalLikePost(id_post)
     return res.status(200).json({ message: "Like ajouté", total: total });
 }
 const totalLikePost = async(req,res) => {
-  const response = await LikeDB.totalLikePost(req.query.id);
+  const response = await LikeDB.totalLikePost(req.query.id_post);
   const result = response.result;
   const total = result[0].total
   return res.status(200).json({ message: "Requête OK", total : total });
@@ -85,11 +85,28 @@ const total = await LikeDB.totalLikeComment(id_comment)
     return res.status(200).json(response);
   }
 
+  const deleteLikePost = async (req,res) =>{
+  const {id_user,id_post} = req.body
+  const response = await LikeDB.deleteLikePost(id_user,id_post)
+  // Récupération d'une éventuelle erreur
+  const error = response.error; // soit une chaîne de caractères, soit null
+
+  // Vérification de la présence d'une erreur
+  if (error) {
+      // En cas d'erreur, retour d'une réponse avec le statut 500 (Erreur interne du serveur)
+      return res.status(500).json({ message: error });
+  } else {
+      // En cas de succès, retour d'une réponse avec le statut 200 (OK) et un message indiquant la suppression réussie
+      return res.status(200).json({ message: "like supprimé" });
+  }
+  }
+
   export const LikeController = {
     createLikePost, 
     readLikeByUser, 
     createLikeComment,
     readLikeByUserByPost,
     readDislikeByUserByPost,
-    totalLikePost
+    totalLikePost,
+    deleteLikePost
   }

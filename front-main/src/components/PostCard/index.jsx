@@ -4,11 +4,24 @@ import elapsed from "../../utils/elapsed";
 import { AiTwotoneLike } from "react-icons/ai";
 import { AiTwotoneDislike } from "react-icons/ai";
 import { FaRegCommentAlt } from "react-icons/fa";
-
+import Like from "../Like";
+import { userService } from "../../utils/userService";
+import { useEffect, useState  } from "react";
 
 const PostCard = ({ post }) => {
   const createdAt = post.creation;
   const category = ["test", "test"];
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // Abonnement aux mises à jour de l'utilisateur à l'aide du service userService
+    const subscription = userService.user.subscribe((x) => setUser(x));
+
+    // Nettoyage de l'abonnement lors de la destruction du composant
+
+    return () => subscription.unsubscribe();
+  }, []);
+
 
   let timeAgo = elapsed(createdAt);
   return (
@@ -42,13 +55,7 @@ const PostCard = ({ post }) => {
       </div>
       <div className="card-footer">
         <div className="card-footer-like">
-          <button type="button" className="btn btn-primary">
-          <AiTwotoneLike />
-          </button>
-          <p>{post.liked}</p>
-          <button type="button" className="btn btn-primary">
-          <AiTwotoneDislike />
-          </button>
+      <Like id_post={post.id} id_user={user.id}/>
         </div>
         <div className="card-footer-comment">
         <button type="button" className="btn btn-primary">

@@ -10,6 +10,8 @@ const initLikeRoutes = (app) => {
   router.get("/readLikeByUserByPost", LikeController.readLikeByUserByPost );
   router.get("/readDislikeByUserByPost", LikeController.readDislikeByUserByPost );
   router.get("/totalLikePost", LikeController.totalLikePost );
+  router.delete("/deleteLikePost", LikeController.deleteLikePost );
+
 
 
   app.use("/api/like", router);

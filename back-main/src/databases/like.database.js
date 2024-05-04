@@ -166,6 +166,24 @@ const readDislikeByUserByPost  = async (id_user, id_post) => {
     }
 }
 
+const deleteLikePost = async (id_user,id_post) => {
+    const sql = `
+        DELETE FROM liked_post
+        WHERE id_user = ?
+        WHERE id_post = ?
+    `;
+
+    let error = null;
+    let result = null;
+
+    try {
+        result = await query(sql, [id_user, id_post]);
+    } catch (e) {
+        error = e.message;
+    } finally {
+        return { error, result };
+    }
+};
 
 export const LikeDB = {
     createLikePost,
@@ -174,5 +192,6 @@ export const LikeDB = {
     totalLikePost,
     createLikeComment,
     readLikeByUserByPost,
-    readDislikeByUserByPost
+    readDislikeByUserByPost,
+    deleteLikePost
 }
