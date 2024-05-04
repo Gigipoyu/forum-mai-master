@@ -7,7 +7,6 @@ import { FaRegCommentAlt } from "react-icons/fa";
 import Like from "../Like";
 import { userService } from "../../utils/userService";
 import { useEffect, useState  } from "react";
-
 const PostCard = ({ post }) => {
   const createdAt = post.creation;
   const category = ["test", "test"];
@@ -22,7 +21,7 @@ const PostCard = ({ post }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-
+console.log(user)
   let timeAgo = elapsed(createdAt);
   return (
     <div className="card mb-3">
@@ -55,7 +54,7 @@ const PostCard = ({ post }) => {
       </div>
       <div className="card-footer">
         <div className="card-footer-like">
-      <Like id_post={post.id} id_user={user.id}/>
+     { user && <Like id_post={post.id} id_user={user.userId}/>}
         </div>
         <div className="card-footer-comment">
         <button type="button" className="btn btn-primary">

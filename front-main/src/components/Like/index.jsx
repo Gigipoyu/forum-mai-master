@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import  { useState, useEffect  } from "react";
 import { AiTwotoneLike } from "react-icons/ai";
 import { AiTwotoneDislike } from "react-icons/ai";
+import axios from "axios";
 
 const Like = (props) => {
   const id_user = props.id_user;
@@ -11,18 +12,67 @@ const Like = (props) => {
 ;
   const handleClickLike = () => {
     setLiked(true);
-    if (disliked === true)
+    getTotalLike(id_post)
+    if ((liked=== false && disliked === false ) || disliked === true ) {
     setDisLiked(false)
     addLike(id_user,id_post);
+    }
   };
 
   const handleClickDisLike = () => {
     setDisLiked(true);
     if (liked === true) {
       setLiked(false);
+      deleteLike(id_user,id_post);
       addDisLike(id_user,id_post);
     }
   };
+
+  const deleteLike = (id_user, id_post) => {
+
+    let data = {
+      id_user,
+      id_post,
+    };
+
+    data = JSON.stringify(data);
+    let config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3000/api/like/deleteLikePost",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios.request(config).then((response) => {
+      if (response.status === 200) {
+        console.log("like deleted")
+      }
+    });
+  }
+
+const getTotalLike =(id_post) => {
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `http://localhost:3000/api/like/totalLikePost/${id_post}`,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(response)
+      setTotalLike(response.data.total);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
   const addLike = (id_user, id_post) => {
     const liked = 1;
@@ -83,24 +133,8 @@ const Like = (props) => {
   };
 
   useEffect(() => {
-    let config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: `http://localhost:3000/api/like/totalLikePost/${id_post}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        setTotalLike(response.data.total);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id_post]);
+    getTotalLike(id_post)
+  }, []);
 
   return (
     <>

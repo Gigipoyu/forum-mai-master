@@ -5,12 +5,14 @@ import express from "express";
 const initLikeRoutes = (app) => {
   const router = express.Router();
   router.post("/createLikePost", LikeController.createLikePost );
+  router.post("/createDisLikePost", LikeController.createDisLikePost );
   router.post("/createLikeComment", LikeController.createLikeComment );
   router.get("/readLikeByUser", LikeController.readLikeByUser );
   router.get("/readLikeByUserByPost", LikeController.readLikeByUserByPost );
   router.get("/readDislikeByUserByPost", LikeController.readDislikeByUserByPost );
-  router.get("/totalLikePost", LikeController.totalLikePost );
+  router.get("/totalLikePost/:id_post", LikeController.totalLikePost );
   router.delete("/deleteLikePost", LikeController.deleteLikePost );
+
 
 
 

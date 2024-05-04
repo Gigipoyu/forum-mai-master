@@ -30,6 +30,38 @@ try {
 }
 };
 
+const createDisLikePost = async(
+    liked,
+    disliked,
+    id_post,
+    id_user) => {
+ const sql = `
+ INSERT INTO liked_post (
+  liked,
+    disliked,
+    id_post,
+    id_user)
+ VALUES (?,?,?, ? )
+`;
+
+let error = null;
+let result = null;
+
+try {
+ result = await query(sql, [
+  liked,
+  disliked,
+  id_post,
+  id_user]);
+} catch (e) {
+ error = e.message;
+} finally {
+ return { error, result };
+}
+};
+
+
+
 const createLikeComment = async(
     liked,
       disliked,
@@ -169,8 +201,7 @@ const readDislikeByUserByPost  = async (id_user, id_post) => {
 const deleteLikePost = async (id_user,id_post) => {
     const sql = `
         DELETE FROM liked_post
-        WHERE id_user = ?
-        WHERE id_post = ?
+        WHERE id_user = ? && id_post = ?
     `;
 
     let error = null;
@@ -187,6 +218,7 @@ const deleteLikePost = async (id_user,id_post) => {
 
 export const LikeDB = {
     createLikePost,
+    createDisLikePost,
     readLikeByUser, 
     totalLikeComment,
     totalLikePost,

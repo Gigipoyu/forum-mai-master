@@ -8,6 +8,7 @@ const createLikePost = async (req,res) => {
       id_user
     } = req.body
 
+    
 const response = await LikeDB.createLikePost(
     liked,
     disliked,
@@ -21,19 +22,42 @@ const response = await LikeDB.createLikePost(
       return res.status(500).json({ message: responseError });
     }
 
-const total = await LikeDB.totalLikePost(id_post)
-
-    return res.status(200).json({ message: "Like ajouté", total: total });
+    return res.status(200).json({ message: "Like ajouté"});
 }
+
+const createDisLikePost = async (req,res) => {
+  const {
+    liked,
+    disliked,
+    id_post,
+    id_user
+  } = req.body
+
+  
+const response = await LikeDB.createDisLikePost(
+  liked,
+  disliked,
+  id_post,
+  id_user)
+
+
+  const responseError = response.error;
+  console.log(response);
+  if (responseError) {
+    return res.status(500).json({ message: responseError });
+  }
+
+  return res.status(200).json({ message: "Dislike ajouté"});
+}
+
 const totalLikePost = async(req,res) => {
   const response = await LikeDB.totalLikePost(req.query.id_post);
   const result = response.result;
+  console.log(result)
   const total = result[0].total
   return res.status(200).json({ message: "Requête OK", total : total });
-
-
-
 }
+
 const createLikeComment = async (req,res) => {
     const {
       liked,
@@ -103,6 +127,7 @@ const total = await LikeDB.totalLikeComment(id_comment)
 
   export const LikeController = {
     createLikePost, 
+    createDisLikePost,
     readLikeByUser, 
     createLikeComment,
     readLikeByUserByPost,
