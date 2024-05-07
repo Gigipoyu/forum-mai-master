@@ -1,12 +1,12 @@
 import "./post.css";
 import { Link } from 'react-router-dom';
 import elapsed from "../../utils/elapsed";
-import { AiTwotoneLike } from "react-icons/ai";
-import { AiTwotoneDislike } from "react-icons/ai";
 import { FaRegCommentAlt } from "react-icons/fa";
 import Like from "../Like";
 import { userService } from "../../utils/userService";
 import { useEffect, useState  } from "react";
+import TotalComment from "../TotalComment";
+
 const PostCard = ({ post }) => {
   const createdAt = post.creation;
   const category = ["test", "test"];
@@ -56,12 +56,7 @@ console.log(user)
         <div className="card-footer-like">
      { user && <Like id_post={post.id} id_user={user.userId}/>}
         </div>
-        <div className="card-footer-comment">
-        <button type="button" className="btn btn-primary">
-          <FaRegCommentAlt />
-          </button>
-          <p></p>
-        </div>
+        <TotalComment id_post={post.id} />
       </div>
     </div>
   );

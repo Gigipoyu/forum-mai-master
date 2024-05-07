@@ -106,12 +106,10 @@ font-size: 14px;
 
 }
 
-.card-footer-like, 
 .card-footer-comment{
     width: 60px;
     height: 30px;
     border-radius: 20px;
-    background-color: rgb(224, 217, 217);
     color: black;
     display: flex;
     justify-content:space-between;

@@ -102,6 +102,16 @@ const signalComment = async (req, res) => {
   return res.status(200).json({ message: "commentaire signalé" });
 };
 
+const totalComment = async (req, res) => {
+  const id_post = req.query.id_post;
+  console.log(id_post)
+  const response = await CommentDB.totalComment(id_post);
+  const result = response.result;
+  console.log(response)
+  const total = result[0].total
+  return res.status(200).json({ message: "Requête OK", total : total });
+}
+
 export const CommentController = {
   createComment,
   readOneComment,
@@ -109,4 +119,5 @@ export const CommentController = {
   updateComment,
   publishComment,
   signalComment,
+  totalComment
 };

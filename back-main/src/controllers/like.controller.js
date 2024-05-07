@@ -51,7 +51,9 @@ const response = await LikeDB.createDisLikePost(
 }
 
 const totalLikePost = async(req,res) => {
-  const response = await LikeDB.totalLikePost(req.query.id_post);
+  const id_post = req.query.id_post;
+  console.log(id_post)
+  const response = await LikeDB.totalLikePost(id_post);
   const result = response.result;
   console.log(result)
   const total = result[0].total

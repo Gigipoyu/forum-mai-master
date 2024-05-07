@@ -138,6 +138,28 @@ const signalComment = async (id) => {
     return { error, result };
   }
 };
+
+const totalComment = async (id_post) => {
+
+  const sql =  `
+  SELECT COUNT(id) AS total
+  FROM comment
+  WHERE id_post = ?
+`;
+
+
+  let error = null;
+  let result = null;
+
+  try {
+      result = await query(sql,[id_post] );
+  } catch (e) {
+      error = e.message;
+  } finally {
+      return { error, result };
+  }
+};
+
 export const CommentDB = {
   createComment,
   readOneComment,
@@ -145,4 +167,5 @@ export const CommentDB = {
   updateComment,
   publishComment,
   signalComment,
+  totalComment
 };

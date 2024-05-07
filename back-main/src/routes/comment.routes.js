@@ -10,7 +10,7 @@ const initCommentRoutes = (app) => {
   router.put("/updateComment", CommentController.updateComment);
   router.put("/publishComment", CommentController.publishComment);
   router.put("/signalComment", CommentController.signalComment);
-
+  router.get("/totalComment", CommentController.totalComment);
   app.use("/api/comment", router);
 };
 

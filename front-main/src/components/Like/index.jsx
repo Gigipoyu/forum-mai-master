@@ -2,6 +2,7 @@ import  { useState, useEffect  } from "react";
 import { AiTwotoneLike } from "react-icons/ai";
 import { AiTwotoneDislike } from "react-icons/ai";
 import axios from "axios";
+import "./like.css";
 
 const Like = (props) => {
   const id_user = props.id_user;
@@ -15,7 +16,9 @@ const Like = (props) => {
     getTotalLike(id_post)
     if ((liked=== false && disliked === false ) || disliked === true ) {
     setDisLiked(false)
-    addLike(id_user,id_post);
+    addLike(id_user,id_post);   
+     getTotalLike(id_post)
+
     }
   };
 
@@ -57,7 +60,7 @@ const getTotalLike =(id_post) => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `http://localhost:3000/api/like/totalLikePost/${id_post}`,
+    url: `http://localhost:3000/api/like/totalLikePost?id_post=${id_post}`,
     headers: {
       "Content-Type": "application/json",
     },
@@ -137,7 +140,7 @@ const getTotalLike =(id_post) => {
   }, []);
 
   return (
-    <>
+    <div className="like">
       <button type="button" className="btn btn-primary" onClick={handleClickLike}>
         {liked ? (
           <AiTwotoneLike style={{ color: "red" }} />
@@ -145,7 +148,7 @@ const getTotalLike =(id_post) => {
           <AiTwotoneLike style={{ color: "black" }} />
         )}
       </button>
-      <p>{totalLike}</p>
+      <p className="total">{totalLike}</p>
       <button type="button" className="btn btn-primary" onClick={handleClickDisLike}>
         {disliked ? (
           <AiTwotoneDislike style={{ color: "red" }} />
@@ -153,7 +156,7 @@ const getTotalLike =(id_post) => {
           <AiTwotoneDislike style={{ color: "black" }} />
         )}
       </button>
-    </>
+    </div>
   );
 };
 
